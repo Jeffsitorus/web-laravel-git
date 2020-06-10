@@ -6,10 +6,10 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" href="#">About</a>
-        <a class="nav-item nav-link" href="#">Contact</a>
-        <a class="nav-item nav-link" href="#">Post</a>
+        <a class="nav-item nav-link {{ request()->is('home') ? 'active' : '' }}" href="{{url('home')}}">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link {{ request()->is('about') ? 'active' : '' }}" href="{{ url('about') }}">About</a>
+        <a class="nav-item nav-link {{ request()->is('contact') ? 'active' : '' }}" href="{{ url('contact') }}">Contact</a>
+        <a class="nav-item nav-link {{ request()->is('blogs') ? 'active' : '' }}" href="{{ url('blogs') }}">Blogs</a>
       </div>
     </div>
   </div>
