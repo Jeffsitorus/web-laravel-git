@@ -25,3 +25,5 @@ Route::post('/blog/store', 'BlogController@store');
 
 Route::get('/blog/{blog:slug}/edit','BlogController@edit');
 Route::patch('/blog/{blog:slug}/edit','BlogController@update');
+
+Route::delete('/blog/{blog:slug}/delete','BlogController@destroy');

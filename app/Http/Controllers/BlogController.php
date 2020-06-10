@@ -57,4 +57,11 @@ class BlogController extends Controller
         session()->flash('success','Blog berhasil diubah');
         return back();
     }
+
+    public function destroy(Blog $blog)
+    {
+        $blog->delete();
+        session()->flash('success','Blog berhasil dihapus');
+        return redirect('blogs');
+    }
 }
