@@ -4,11 +4,15 @@
     <div class="container">
       <div class="d-flex justify-content-between py-3">
         <div>
-          <h1>List Blogs</h1>
+          @isset($category)
+          <h4>Category : {{$category->name}}</h4>
+          @else
+          <h2>List Blogs</h2>
+          @endisset
           <hr>
         </div>
         <div>
-          <a href="{{ url('/blog/create') }}" class="btn btn-primary btn-lg">New Blog</a>
+          <a href="{{ url('blog/create') }}" class="btn btn-primary btn-lg">New Blog</a>
         </div>
       </div>
       <div class="row">
@@ -20,13 +24,12 @@
             </div>
             <div class="card-body">
               <p>{{ Str::limit($blog->deskripsi,100) }}</p>
-              <p>Category : {{$blog->category->name}}</p>
               <a href="{{ url('blogs/'.$blog->slug)}}">Baca Selengkapnya</a>
             </div>
             <div class="card-footer d-flex justify-content-between">
               {{-- Diposting {{ $blog->created_at->format('d F, Y') }} --}}
               Diposting {{ $blog->created_at->diffForHumans() }}
-              <a href="blog/{{$blog->slug}}/edit" class="btn btn-sm btn-success">Edit</a>
+              <a href="/blog/{{$blog->slug}}/edit" class="btn btn-sm btn-success">Edit</a>
             </div>
           </div>
         </div>

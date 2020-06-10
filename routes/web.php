@@ -27,6 +27,8 @@ Route::get('/blog/{blog:slug}/edit','BlogController@edit');
 Route::patch('/blog/{blog:slug}/edit','BlogController@update');
 Route::delete('/blog/{blog:slug}/delete','BlogController@destroy');
 
+Route::get('/categories/{category:slug}','CategoryController@show');
+
 // category
 Route::get('/categories','CategoryController@index');
 Route::get('/category/create','CategoryController@create');

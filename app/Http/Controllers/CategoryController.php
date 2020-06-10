@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\CategoryRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
@@ -12,6 +11,12 @@ class CategoryController extends Controller
     {
         $categories = Category::get();
         return view('categories.index', compact('categories'));
+    }
+
+    public function show(Category $category)
+    {
+        $blogs  = $category->blogs()->paginate(6);
+        return view('blogs.index',compact('blogs','category'));
     }
 
     public function create()

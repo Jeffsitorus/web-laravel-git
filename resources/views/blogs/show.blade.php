@@ -4,7 +4,11 @@
     <div class="container">
       <div class="row mt-3">
         <div class="col-12">
-          <h2>{{$blog->judul}}</h2>
+          <h4>{{$blog->judul}}</h4>
+          <small>
+            <p class="text-muted text-small">Category : <a href="/categories/{{$blog->category->slug}}">{{$blog->category->name}}</a> &middot; {{$blog->created_at->format('d F, Y')}}</p>
+          </small>
+          <hr>
           <p>{{$blog->deskripsi}}</p>
           <div class="mt-3">
             <button type="button" class="btn btn-link btn-sm p-0 text-danger" data-toggle="modal" data-target="#modelId"> Delete</button>
