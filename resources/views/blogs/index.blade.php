@@ -20,6 +20,7 @@
             </div>
             <div class="card-body">
               <p>{{ Str::limit($blog->deskripsi,100) }}</p>
+              <p>Category : {{$blog->category->name}}</p>
               <a href="{{ url('blogs/'.$blog->slug)}}">Baca Selengkapnya</a>
             </div>
             <div class="card-footer d-flex justify-content-between">
