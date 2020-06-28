@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title'  => 'Create new Blog'])
+@extends('layouts.layout', ['title'  => 'Create new Blog'])
 
 @section('content')
     <div class="container mt-3">
@@ -9,7 +9,7 @@
               <h4>Create New Blog</h4>
             </div>
             <div class="card-body">
-              <form action="{{ url('/blog/store') }}" method="post">
+              <form action="{{ route('blog.store') }}" method="post">
                 @csrf
                 @include('blogs.partials.form-control',[
                   'blog'    => new \App\Blog,

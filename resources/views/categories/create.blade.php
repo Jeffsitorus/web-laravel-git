@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layout')
 
 @section('content')
     <div class="container">
@@ -9,7 +9,7 @@
               Create New Category
             </div>
             <div class="card-body">
-              <form action="/category/store" method="post">
+              <form action="{{ route('category.store') }}" method="post">
                 @csrf
                 @include('categories.partials.form-control',[
                   'submit'  => 'Create',

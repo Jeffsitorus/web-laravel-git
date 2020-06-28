@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 date_default_timezone_set('Asia/Jakarta');
 
 use App\Blog;
 use App\Http\Requests\BlogRequest;
 use Illuminate\Support\Str;
+
 class BlogController extends Controller
 {
     public function index()
@@ -41,7 +43,7 @@ class BlogController extends Controller
         $blog = $request->all();
         $blog['slug']    = Str::slug($request->judul);
         Blog::create($blog);
-        session()->flash('success','Blog baru berhasil ditambahkan!');
+        session()->flash('success', 'Blog baru berhasil ditambahkan!');
         return back();
     }
 
@@ -54,14 +56,14 @@ class BlogController extends Controller
     {
         $data   = $request->all();
         $blog->update($data);
-        session()->flash('success','Blog berhasil diubah');
+        session()->flash('success', 'Blog berhasil diubah');
         return back();
     }
 
     public function destroy(Blog $blog)
     {
         $blog->delete();
-        session()->flash('success','Blog berhasil dihapus');
-        return redirect('blogs');
+        session()->flash('success', 'Blog berhasil dihapus');
+        return redirect(route('blog.index'));
     }
 }

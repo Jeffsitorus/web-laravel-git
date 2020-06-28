@@ -19,20 +19,24 @@ Route::get('/contact', function () {
 });
 
 // blogs
-Route::get('/blogs', 'BlogController@index');
-Route::get('/blogs/{blog:slug}', 'BlogController@show');
-Route::get('/blog/create', 'BlogController@create');
-Route::post('/blog/store', 'BlogController@store');
-Route::get('/blog/{blog:slug}/edit','BlogController@edit');
-Route::patch('/blog/{blog:slug}/edit','BlogController@update');
-Route::delete('/blog/{blog:slug}/delete','BlogController@destroy');
+// Route::get('/blogs', 'BlogController@index');
+// Route::get('/blogs/{blog:slug}', 'BlogController@show');
+// Route::get('/blog/create', 'BlogController@create');
+// Route::post('/blog/store', 'BlogController@store');
+// Route::get('/blog/{blog:slug}/edit', 'BlogController@edit');
+// Route::patch('/blog/{blog:slug}/edit', 'BlogController@update');
+// Route::delete('/blog/{blog:slug}/delete', 'BlogController@destroy');
 
-Route::get('/categories/{category:slug}','CategoryController@show');
+
+Route::resource('blog', 'BlogController');
+
 
 // category
-Route::get('/categories','CategoryController@index');
-Route::get('/category/create','CategoryController@create');
-Route::post('/category/store','CategoryController@store');
-Route::get('/category/{category:slug}/edit', 'CategoryController@edit');
-Route::patch('/category/{category:slug}/edit','CategoryController@update');
-Route::delete('/category/{category:slug}/delete','CategoryController@destroy');
+// Route::resource('category', 'CategoryController');
+Route::get('/categories/{category:slug}', 'CategoryController@show');
+Route::get('/category', 'CategoryController@index')->name('category.index');
+Route::get('/category/create', 'CategoryController@create')->name('category.create');
+Route::post('/category/store', 'CategoryController@store')->name('category.store');
+Route::get('/category/{category:slug}/edit', 'CategoryController@edit')->name('category.edit');
+Route::patch('/category/{category:slug}/edit', 'CategoryController@update')->name('category.update');
+Route::delete('/category/{category:slug}/delete', 'CategoryController@destroy')->name('category.destroy');

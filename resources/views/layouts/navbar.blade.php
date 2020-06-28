@@ -9,7 +9,8 @@
         <a class="nav-item nav-link {{ request()->is('home') ? 'active' : '' }}" href="{{url('home')}}">Home <span class="sr-only">(current)</span></a>
         <a class="nav-item nav-link {{ request()->is('about') ? 'active' : '' }}" href="{{ url('about') }}">About</a>
         <a class="nav-item nav-link {{ request()->is('contact') ? 'active' : '' }}" href="{{ url('contact') }}">Contact</a>
-        <a class="nav-item nav-link {{ request()->is('blogs') ? 'active' : '' }}" href="{{ url('blogs') }}">Blogs</a>
+        <a class="nav-item nav-link {{ request()->is('blog') ? 'active' : '' }}" href="{{ route('blog.index') }}">Blogs</a>
+        <a class="nav-item nav-link {{ request()->is('category') ? 'active' : '' }}" href="{{ route('category.index') }}">Categories</a>
       </div>
     </div>
   </div>

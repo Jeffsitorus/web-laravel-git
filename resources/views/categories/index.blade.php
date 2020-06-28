@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.layout')
 
 @section('content')
     <div class="container">
       <div class="row mt-3">
-        <div class="col-md-8">
-          <a href="{{ url('category/create') }}" class="btn btn-primary mb-2"> Create</a>
+        <div class="col-md-8">  
+          <a href="{{ route('category.create') }}" class="btn btn-primary mb-2"> Create</a>
           <div class="table-responsive">
             <table class="table table-bordered table-inverse">
               <thead>
@@ -22,7 +22,7 @@
                   <td>{{$category->name}}</td>
                   <td>{{$category->slug}}</td>
                   <td>
-                    <a href="/category/{{$category->slug}}/edit" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{{ route('category.edit', $category->slug) }}" class="btn btn-primary btn-sm">Edit</a>
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modelId{{$category->slug}}">
                       Delete
                     </button>
@@ -53,7 +53,7 @@
           <div class="mt-2">
             <small>Diinputkan {{$category->created_at->diffForHumans()}}</small>
           </div>
-          <form action="/category/{{$category->slug}}/delete" method="post">
+          <form action="{{ route('category.destroy', $category->slug) }}" method="post">
           @csrf
           @method('delete')
         </div>

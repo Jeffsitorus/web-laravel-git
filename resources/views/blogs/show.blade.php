@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layout')
 
 @section('content')
     <div class="container">
@@ -6,7 +6,7 @@
         <div class="col-12">
           <h4>{{$blog->judul}}</h4>
           <small>
-            <p class="text-muted text-small">Category : <a href="/categories/{{$blog->category->slug}}">{{$blog->category->name}}</a> &middot; {{$blog->created_at->format('d F, Y')}}</p>
+            <p class="text-muted text-small">Category : <a href="/categories/{{$blog->category->slug}}">{{$blog->category->name}}</a> <b>&middot;</b> {{$blog->created_at->format('d F, Y')}}</p>
           </small>
           <hr>
           <p>{{$blog->deskripsi}}</p>
@@ -33,7 +33,7 @@
         <div class="mt-3">
           <small>Diposting {{$blog->created_at->diffForHumans()}}</small>
         </div>
-        <form action="/blog/{{$blog->slug}}/delete" method="post">
+        <form action="{{ route('blog.destroy',$blog->slug) }}" method="post">
           @csrf
           @method('delete')
         </div>
