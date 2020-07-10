@@ -11,7 +11,7 @@ class Blog extends Model
         return 'slug';
     }
 
-    protected $fillable = ['slug', 'judul', 'deskripsi'];
+    protected $fillable = ['slug', 'judul', 'deskripsi', 'category_id'];
 
     public function category()
     {

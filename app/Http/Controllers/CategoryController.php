@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+date_default_timezone_set('Asia/Jakarta');
+
 use App\Category;
 use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Str;

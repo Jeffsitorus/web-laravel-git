@@ -11,6 +11,7 @@
         <a class="nav-item nav-link {{ request()->is('contact') ? 'active' : '' }}" href="{{ url('contact') }}">Contact</a>
         <a class="nav-item nav-link {{ request()->is('blog') ? 'active' : '' }}" href="{{ route('blog.index') }}">Blogs</a>
         <a class="nav-item nav-link {{ request()->is('category') ? 'active' : '' }}" href="{{ route('category.index') }}">Categories</a>
+        <a class="nav-item nav-link {{ request()->is('tags') ? 'active' : '' }}" href="{{ route('tag.index') }}">Tags</a>
       </div>
     </div>
   </div>

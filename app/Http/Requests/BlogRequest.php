@@ -26,6 +26,8 @@ class BlogRequest extends FormRequest
         return [
             'judul'     => 'required',
             'deskripsi' => 'required',
+            'category'  => 'required',
+            'tags'      => 'array|required',
         ];
     }
 }

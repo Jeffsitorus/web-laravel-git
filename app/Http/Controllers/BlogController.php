@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 date_default_timezone_set('Asia/Jakarta');
 
 use App\Blog;
+use App\Category;
 use App\Http\Requests\BlogRequest;
+use App\Tag;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
     public function index()
     {
+        $blogs = Blog::latest()->paginate(6);
         return view('blogs.index', [
-            'blogs'     => Blog::paginate(6),
+            'blogs'     => $blogs,
         ]);
     }
 
@@ -24,44 +27,43 @@ class BlogController extends Controller
 
     public function create()
     {
-        return view('blogs.create');
+        return view('blogs.create', [
+            'categories'    => Category::get(),
+            'tags'          => Tag::get(),
+        ]);
     }
 
     public function store(BlogRequest $request)
     {
-        // $blog = new Blog;
-        // $blog->slug    = Str::slug($request->judul);
-        // $blog->judul   = $request->judul;
-        // $blog->deskripsi    = $request->deskripsi;
-        // $blog->created_at   = date('Y-m-d H:i:s');
-        // $blog->save();
-        // return redirect()->to('blogs');
-        // return back();
-
-        // validate is field
-
         $blog = $request->all();
-        $blog['slug']    = Str::slug($request->judul);
-        Blog::create($blog);
+        $blog['slug']        = Str::slug($request->judul);
+        $blog['category_id'] = $request->category;
+        $blog = Blog::create($blog);
+        $blog->tags()->attach(request('tags'));
         session()->flash('success', 'Blog baru berhasil ditambahkan!');
         return back();
     }
 
     public function edit(Blog $blog)
     {
-        return view('blogs.edit', compact('blog'));
+        $categories = Category::get();
+        $tags       = Tag::get();
+        return view('blogs.edit', compact(['blog', 'categories', 'tags']));
     }
 
     public function update(BlogRequest $request, Blog $blog)
     {
-        $data   = $request->all();
-        $blog->update($data);
+        $attr           = $request->all();
+        $attr['category_id'] = $request->category;
+        $blog->tags()->sync(request('tags'));
+        $blog->update($attr);
         session()->flash('success', 'Blog berhasil diubah');
         return back();
     }
 
     public function destroy(Blog $blog)
     {
+        $blog->tags()->detach();
         $blog->delete();
         session()->flash('success', 'Blog berhasil dihapus');
         return redirect(route('blog.index'));

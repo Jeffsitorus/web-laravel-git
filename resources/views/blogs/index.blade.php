@@ -6,9 +6,14 @@
         <div>
           @isset($category)
           <h4>Category : {{$category->name}}</h4>
-          @else
-          <h2>List Blogs</h2>
           @endisset
+          @isset($tag)
+              <h4>Tag : {{ $tag->name }}</h4>
+          @endisset
+
+          @if (!isset($category) and !isset($tag))
+            <h2>List Blogs</h2>
+          @endif
           <hr>
         </div>
         <div>
