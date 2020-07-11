@@ -12,12 +12,15 @@
           @endforeach
           
         </p>
+        <p class="text-muted text-small">Penulis : {{ $blog->author->name }}</p>
       </small>
       <hr>
       <p>{{$blog->deskripsi}}</p>
       <div class="mt-3">
-        @auth  
+        @auth
+        @if (auth()->user()->id == $blog->user_id)
           <button type="button" class="btn btn-link btn-sm p-0 text-danger" data-toggle="modal" data-target="#modelId"> Delete</button>
+        @endif
         @else
           <a href="{{ route('blog.index') }}" class="btn btn-info"> Back Home</a>
         @endauth
@@ -27,6 +30,7 @@
 </div>
 @endsection
 
+@auth
 <!-- Modal -->
 <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -44,7 +48,7 @@
         </div>
         <form action="{{ route('blog.destroy',$blog->slug) }}" method="post">
           @csrf
-          @method('delete')
+          @method('DELETE')
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Ya</button>
@@ -54,3 +58,4 @@
     </div>
   </div>
 </div>
+@endauth

@@ -43,7 +43,7 @@ class BlogController extends Controller
         $blog = $request->all();
         $blog['slug']        = Str::slug($request->judul);
         $blog['category_id'] = $request->category;
-        $blog = Blog::create($blog);
+        $blog = auth()->user()->blogs()->create($blog);
         $blog->tags()->attach(request('tags'));
         session()->flash('success', 'Blog baru berhasil ditambahkan!');
         return back();
@@ -68,9 +68,14 @@ class BlogController extends Controller
 
     public function destroy(Blog $blog)
     {
-        $blog->tags()->detach();
-        $blog->delete();
-        session()->flash('success', 'Blog berhasil dihapus');
-        return redirect(route('blog.index'));
+        if (auth()->user()->id == $blog->user_id) {
+            $blog->tags()->detach();
+            $blog->delete();
+            session()->flash('success', 'Blog berhasil dihapus');
+            return redirect(route('blog.index'));
+        } else {
+            session()->flash('error', 'Tidak dapat menghapus blog!, Ini bukan blog anda!');
+            return redirect(route('blog.index'));
+        }
     }
 }
