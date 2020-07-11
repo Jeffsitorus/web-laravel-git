@@ -16,7 +16,11 @@
       <hr>
       <p>{{$blog->deskripsi}}</p>
       <div class="mt-3">
-        <button type="button" class="btn btn-link btn-sm p-0 text-danger" data-toggle="modal" data-target="#modelId"> Delete</button>
+        @auth  
+          <button type="button" class="btn btn-link btn-sm p-0 text-danger" data-toggle="modal" data-target="#modelId"> Delete</button>
+        @else
+          <a href="{{ route('blog.index') }}" class="btn btn-info"> Back Home</a>
+        @endauth
       </div>
     </div>
   </div>

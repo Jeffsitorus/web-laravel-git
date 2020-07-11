@@ -17,7 +17,11 @@
           <hr>
         </div>
         <div>
-          <a href="{{ route('blog.create') }}" class="btn btn-primary btn-lg">New Blog</a>
+          @if (Auth::check())
+            <a href="{{ route('blog.create') }}" class="btn btn-primary btn-lg">New Blog</a>
+          @else
+            <a href="{{ route('login') }}" class="btn btn-primary">{{ __('Login Here!') }}</a>
+          @endif
         </div>
       </div>
       <div class="row">
@@ -34,7 +38,9 @@
             <div class="card-footer d-flex justify-content-between">
               {{-- Diposting {{ $blog->created_at->format('d F, Y') }} --}}
               Diposting {{ $blog->created_at->diffForHumans() }}
-              <a href="{{ route('blog.edit', $blog->slug) }}" class="btn btn-sm btn-success">Edit</a>
+              @auth
+                <a href="{{ route('blog.edit', $blog->slug) }}" class="btn btn-sm btn-success">Edit</a>
+              @endauth
             </div>
           </div>
         </div>

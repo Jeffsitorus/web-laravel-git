@@ -12,6 +12,10 @@ use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
     public function index()
     {
         $blogs = Blog::latest()->paginate(6);
@@ -27,6 +31,7 @@ class BlogController extends Controller
 
     public function create()
     {
+        $this->middleware('auth');
         return view('blogs.create', [
             'categories'    => Category::get(),
             'tags'          => Tag::get(),

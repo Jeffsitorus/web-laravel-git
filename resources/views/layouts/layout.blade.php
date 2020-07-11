@@ -13,7 +13,9 @@
   <body>
 
     @include('layouts.navbar')
+
     @include('layouts.flash')
+    
     @yield('content')
 
     <!-- Optional JavaScript -->
