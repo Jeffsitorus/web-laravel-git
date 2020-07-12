@@ -9,7 +9,7 @@
               <h4>Create New Blog</h4>
             </div>
             <div class="card-body">
-              <form action="{{ route('blog.store') }}" method="post">
+              <form action="{{ route('blog.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @include('blogs.partials.form-control',[
                   'blog'    => new \App\Blog,

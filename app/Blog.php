@@ -11,7 +11,7 @@ class Blog extends Model
         return 'slug';
     }
 
-    protected $fillable = ['slug', 'judul', 'deskripsi', 'category_id'];
+    protected $fillable = ['slug', 'judul', 'deskripsi', 'category_id', 'thumbnail'];
 
     public function category()
     {
@@ -26,5 +26,10 @@ class Blog extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getTakeImageAttribute()
+    {
+        return "/storage/" . $this->thumbnail;
     }
 }

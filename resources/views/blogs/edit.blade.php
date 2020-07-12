@@ -9,7 +9,7 @@
               <h4>Update Blog: {{$blog->judul}}</h4>
             </div>
             <div class="card-body">
-              <form action="{{ route('blog.update',$blog->slug) }}" method="post">
+              <form action="{{ route('blog.update',$blog->slug) }}" method="post" enctype="multipart/form-data">
                 @method('patch')
                 @csrf
                 @include('blogs.partials.form-control')

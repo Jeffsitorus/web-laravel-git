@@ -8,6 +8,7 @@ use App\Blog;
 use App\Category;
 use App\Http\Requests\BlogRequest;
 use App\Tag;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
@@ -40,10 +41,20 @@ class BlogController extends Controller
 
     public function store(BlogRequest $request)
     {
-        $blog = $request->all();
-        $blog['slug']        = Str::slug($request->judul);
-        $blog['category_id'] = $request->category;
-        $blog = auth()->user()->blogs()->create($blog);
+
+        $request->validate([
+            'thumbnail' => 'image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $attr = $request->all();
+        $slug        = Str::slug($request->judul);
+        $attr['slug'] = $slug;
+
+        $thumbnail = request()->file('thumbnail') ? request()->file('thumbnail')->store("images/post") : null;
+        $attr['category_id'] = $request->category;
+        $attr['thumbnail']   = $thumbnail;
+
+        $blog = auth()->user()->blogs()->create($attr);
         $blog->tags()->attach(request('tags'));
         session()->flash('success', 'Blog baru berhasil ditambahkan!');
         return back();
@@ -59,8 +70,21 @@ class BlogController extends Controller
     public function update(BlogRequest $request, Blog $blog)
     {
         $this->authorize('update', $blog);
+
+        $request->validate([
+            'thumbnail' => 'image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
         $attr           = $request->all();
+        if (request()->file('thumbnail')) {
+            Storage::delete($blog->thumbnail);
+            $thumbnail = request()->file('thumbnail')->store("images/post");
+        } else {
+            $thumbnail = $blog->thumbnail;
+        }
         $attr['category_id'] = $request->category;
+        $attr['thumbnail']   = $thumbnail;
+
         $blog->tags()->sync(request('tags'));
         $blog->update($attr);
         session()->flash('success', 'Blog berhasil diubah');
@@ -71,6 +95,7 @@ class BlogController extends Controller
     {
         // if (auth()->user()->id == $blog->user_id) {
         $this->authorize('delete', $blog);
+        Storage::delete($blog->thumbnail);
         $blog->tags()->detach();
         $blog->delete();
         session()->flash('success', 'Blog berhasil dihapus');

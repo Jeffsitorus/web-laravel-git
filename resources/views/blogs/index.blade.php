@@ -28,11 +28,14 @@
         @foreach ($blogs as $blog)    
         <div class="col-md-4">
           <div class="card mb-3">
-            <div class="card-header">
-              {{$blog->judul}}
-            </div>
+            @if ($blog->thumbnail)
+              <img style="height: 270px; object-fit:cover; object-position:center;" src="{{ $blog->TakeImage }}" class="card-img-top">
+            @endif
             <div class="card-body">
-              <p>{{ Str::limit($blog->deskripsi,100) }}</p>
+              <div class="card-title">
+                {{$blog->judul}}
+              </div>
+              <p>{{ Str::limit($blog->deskripsi,30) }}</p>
               <a href="{{ route('blog.show', $blog->slug) }}">Baca Selengkapnya</a>
             </div>
             <div class="card-footer d-flex justify-content-between">
