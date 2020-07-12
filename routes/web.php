@@ -17,6 +17,7 @@ Route::get('/contact', function () {
 
 Route::resource('blog', 'BlogController');
 
+Route::get('search', 'SearchController@post')->name('search.post');
 // category
 // Route::resource('category', 'CategoryController');
 Route::middleware('auth')->group(function () {
