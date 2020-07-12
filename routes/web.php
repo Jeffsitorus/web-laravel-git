@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/about', function () {
     return view('about');
@@ -20,7 +20,7 @@ Route::resource('blog', 'BlogController');
 // category
 // Route::resource('category', 'CategoryController');
 Route::middleware('auth')->group(function () {
-    Route::get('/categories/{category:slug}', 'CategoryController@show')->withoutMiddleware('auth');
+    Route::get('/categories/{category:slug}', 'CategoryController@show')->name('categories.show')->withoutMiddleware('auth');
     Route::get('/category', 'CategoryController@index')->name('category.index');
     Route::get('/category/create', 'CategoryController@create')->name('category.create');
     Route::post('/category/store', 'CategoryController@store')->name('category.store');
@@ -39,4 +39,4 @@ Route::middleware('auth')->group(function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');

@@ -1,62 +1,133 @@
 @extends('layouts.layout', ['title'  => 'All Blogs'])
 
 @section('content')
-    <div class="container">
-      <div class="d-flex justify-content-between py-3">
-        <div>
-          @isset($category)
-          <h4>Category : {{$category->name}}</h4>
-          @endisset
-          @isset($tag)
-              <h4>Tag : {{ $tag->name }}</h4>
-          @endisset
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between">
+      @isset($category)
+      <h4>Category : {{$category->name}}</h4>
+      @endisset
+      @isset($tag)
+          <h4>Tag : {{ $tag->name }}</h4>
+      @endisset
 
-          @if (!isset($category) and !isset($tag))
-            <h2>List Blogs</h2>
-          @endif
-          <hr>
-        </div>
-        <div>
-          @if (Auth::check())
-            <a href="{{ route('blog.create') }}" class="btn btn-primary btn-lg">New Blog</a>
-          @else
-            <a href="{{ route('login') }}" class="btn btn-primary">{{ __('Login Here!') }}</a>
-          @endif
-        </div>
-      </div>
-      <div class="row">
-        @foreach ($blogs as $blog)    
-        <div class="col-md-4">
-          <div class="card mb-3">
-            @if ($blog->thumbnail)
-              <img style="height: 270px; object-fit:cover; object-position:center;" src="{{ $blog->TakeImage }}" class="card-img-top">
-            @endif
-            <div class="card-body">
-              <div class="card-title">
-                {{$blog->judul}}
-              </div>
-              <p>{{ Str::limit($blog->deskripsi,30) }}</p>
-              <a href="{{ route('blog.show', $blog->slug) }}">Baca Selengkapnya</a>
-            </div>
-            <div class="card-footer d-flex justify-content-between">
-              {{-- Diposting {{ $blog->created_at->format('d F, Y') }} --}}
-              Diposting {{ $blog->created_at->diffForHumans() }}
-              @auth
-                {{-- @if (auth()->user()->is($blog->author)) --}}
-                @can('update', $blog)
-                  <a href="{{ route('blog.edit', $blog->slug) }}" class="btn btn-sm btn-success">Edit</a>
-                @endcan
-                {{-- @endif --}}
-              @endauth
+      @if (!isset($category) and !isset($tag))
+        <h2>List Blogs</h2>
+      @endif
+      <form action="" method="post">
+        @csrf
+        <div class="form-group">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Seacrh" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-info" type="button" id="button-addon2">Search</button>
             </div>
           </div>
         </div>
-        @endforeach
-      </div>
-      <div class="d-flex justify-content-center">
-        <div>
-          {{ $blogs->links() }}
-        </div>
-      </div>
+      </form>
     </div>
+
+    <div class="row mt-3">
+      <div class="col-md-7">
+        @forelse ($blogs as $blog)    
+          <div class="card mb-3">
+            @if ($blog->thumbnail)
+            <a href="{{ route('blog.show', $blog->slug) }}">
+              <img style="height: 400px; object-fit:cover; object-position:center;" src="{{ $blog->TakeImage }}" class="card-img-top">
+            </a>
+            @endif
+            <div class="card-body">
+              
+              <div class="my-2">
+                <a href="{{ route('categories.show', $blog->category->slug) }}" class="text-secondary">
+                  <small>{{ ucfirst($blog->category->name) }} -</small>
+                </a>
+                @foreach ($blog->tags as $tag)
+                <a href="{{ route('tag.show', $tag->slug) }}" class="text-secondary">
+                  <small>{{ $tag->name }}</small>
+                </a>
+                @endforeach
+              </div>
+
+              <div class="card-title">
+                <h5>
+                  <a class="text-dark" href="{{ route('blog.show', $blog->slug) }}">
+                    {{$blog->judul}}
+                  </a>
+                </h5>
+              </div>
+
+              <div class="my-3 text-secondary">
+                {{ Str::limit($blog->deskripsi,130) }}
+              </div>
+
+              <div class="d-flex justify-content-between mt-2">
+                <div class="media align-items-center">
+                  <img src="{{ $blog->author->gravatar() }}" class="rounded-circle mr-3" width="35" alt="">
+                  <div class="media-body">
+                    <div class="text-secondary">
+                      {{ $blog->author->name }}
+                    </div>
+                  </div>
+                </div>
+                <div class="text-secondary mt-3">
+                  <small>
+                    {{-- Diposting {{ $blog->created_at->format('d F, Y') }} --}}
+                    <p class="p-0">Diposting {{ $blog->created_at->diffForHumans() }}</p>
+                  </small>
+                </div>
+              </div>
+      
+            </div>
+          </div>
+        @empty
+        <div class="col-md-6">
+          <div class="alert alert-danger">
+            There's no posts.
+          </div>
+        </div>
+        @endforelse
+      </div>
+
+      <div class="col-md-5">
+        @forelse ($blogs as $blog)
+          <div class="card mb-3" style="max-width: 540px;">
+            <div class="row no-gutters">
+              <div class="col-md-5">
+                <a href="{{ route('blog.show', $blog->slug) }}">
+                  <img src="{{ $blog->TakeImage }}" height="120" class="card-img" alt="Image">
+                </a>
+              </div>
+              <div class="col-md-7">
+                <div class="card-body">
+                  <a href="{{ route('blog.show', $blog->slug) }}">
+                    <h6 class="card-title">{{ $blog->judul }}</h6>
+                  </a>
+                    <small>
+                      <a href="{{ route('categories.show', $tag->slug) }}">
+                        {{ ucfirst($blog->category->name) }} -
+                      </a>
+                      @foreach ($blog->tags as $tag)
+                      <a href="{{ route('tag.show', $tag->slug) }}">
+                        {{ ucfirst($tag->name) }}
+                      </a>
+                      @endforeach
+                    </small>
+                  <small><p class="card-text text-muted">{{ $blog->created_at->format('d F, Y') }}</p></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        @empty
+          <div class="alert-alert-danger">
+            There's no posts.
+          </div>
+        @endforelse
+      
+      </div>
+      
+    </div>
+
+    {{ $blogs->links() }}
+
+  </div>
 @endsection

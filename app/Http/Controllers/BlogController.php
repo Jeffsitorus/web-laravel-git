@@ -19,7 +19,7 @@ class BlogController extends Controller
     }
     public function index()
     {
-        $blogs = Blog::latest()->paginate(6);
+        $blogs = Blog::with(['author', 'tags', 'category'])->latest()->paginate(3);
         return view('blogs.index', [
             'blogs'     => $blogs,
         ]);
@@ -27,7 +27,8 @@ class BlogController extends Controller
 
     public function show(Blog $blog)
     {
-        return view('blogs.show', compact('blog'));
+        $blogs = Blog::where('category_id', $blog->category_id)->paginate(3);
+        return view('blogs.show', compact('blog', 'blogs'));
     }
 
     public function create()
