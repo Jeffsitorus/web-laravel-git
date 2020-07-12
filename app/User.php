@@ -41,4 +41,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Blog::class);
     }
+
+    // jika dia seorang admin
+    public function isAdmin()
+    {
+        return $this->username == 'Jeffs';
+    }
 }

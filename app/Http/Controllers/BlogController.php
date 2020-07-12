@@ -58,6 +58,7 @@ class BlogController extends Controller
 
     public function update(BlogRequest $request, Blog $blog)
     {
+        $this->authorize('update', $blog);
         $attr           = $request->all();
         $attr['category_id'] = $request->category;
         $blog->tags()->sync(request('tags'));
@@ -68,14 +69,15 @@ class BlogController extends Controller
 
     public function destroy(Blog $blog)
     {
-        if (auth()->user()->id == $blog->user_id) {
-            $blog->tags()->detach();
-            $blog->delete();
-            session()->flash('success', 'Blog berhasil dihapus');
-            return redirect(route('blog.index'));
-        } else {
-            session()->flash('error', 'Tidak dapat menghapus blog!, Ini bukan blog anda!');
-            return redirect(route('blog.index'));
-        }
+        // if (auth()->user()->id == $blog->user_id) {
+        $this->authorize('delete', $blog);
+        $blog->tags()->detach();
+        $blog->delete();
+        session()->flash('success', 'Blog berhasil dihapus');
+        return redirect(route('blog.index'));
+        // } else {
+        // session()->flash('error', 'Tidak dapat menghapus blog!, Ini bukan blog anda!');
+        // return redirect(route('blog.index'));
+        // }
     }
 }

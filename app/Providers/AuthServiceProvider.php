@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Blog' => 'App\Policies\BlogPolicy',
     ];
 
     /**
@@ -25,6 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // mendaftarkan policy jika dia seorang admin
+        Gate::before(function ($user) {
+            return $user->isAdmin() ? true : null;
+        });
     }
 }

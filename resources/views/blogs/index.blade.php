@@ -39,7 +39,11 @@
               {{-- Diposting {{ $blog->created_at->format('d F, Y') }} --}}
               Diposting {{ $blog->created_at->diffForHumans() }}
               @auth
-                <a href="{{ route('blog.edit', $blog->slug) }}" class="btn btn-sm btn-success">Edit</a>
+                {{-- @if (auth()->user()->is($blog->author)) --}}
+                @can('update', $blog)
+                  <a href="{{ route('blog.edit', $blog->slug) }}" class="btn btn-sm btn-success">Edit</a>
+                @endcan
+                {{-- @endif --}}
               @endauth
             </div>
           </div>
