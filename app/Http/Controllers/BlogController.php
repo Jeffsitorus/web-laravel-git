@@ -27,7 +27,7 @@ class BlogController extends Controller
 
     public function show(Blog $blog)
     {
-        $blogs = Blog::where('category_id', $blog->category_id)->paginate(3);
+        $blogs = Blog::with(['author', 'tags', 'category'])->where('category_id', $blog->category_id)->paginate(3);
         return view('blogs.show', compact('blog', 'blogs'));
     }
 

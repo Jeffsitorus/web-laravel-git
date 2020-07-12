@@ -18,7 +18,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        $blogs  = $category->blogs()->paginate(6);
+        $blogs  = $category->blogs()->with(['author', 'tags', 'category'])->paginate(3);
         return view('blogs.index', compact('blogs', 'category'));
     }
 

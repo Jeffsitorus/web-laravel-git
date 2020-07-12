@@ -23,7 +23,7 @@ class TagController extends Controller
 
     public function show(Tag $tag)
     {
-        $blogs = $tag->blogs()->latest()->paginate(6);
+        $blogs = $tag->blogs()->with(['author', 'tags', 'category'])->latest()->paginate(6);
         return view('blogs.index', compact('blogs', 'tag'));
     }
 

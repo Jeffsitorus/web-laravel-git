@@ -103,7 +103,7 @@
                     <h6 class="card-title">{{ $blog->judul }}</h6>
                   </a>
                     <small>
-                      <a href="{{ route('categories.show', $tag->slug) }}">
+                      <a href="{{ route('categories.show', $blog->category->slug) }}">
                         {{ ucfirst($blog->category->name) }} -
                       </a>
                       @foreach ($blog->tags as $tag)
