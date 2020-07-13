@@ -13,17 +13,6 @@
       @if (!isset($category) and !isset($tag))
         <h2>List Blogs</h2>
       @endif
-      <form action="" method="post">
-        @csrf
-        <div class="form-group">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Seacrh" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <div class="input-group-append">
-              <button class="btn btn-info" type="button" id="button-addon2">Search</button>
-            </div>
-          </div>
-        </div>
-      </form>
     </div>
 
     <div class="row mt-3">
