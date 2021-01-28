@@ -24,6 +24,14 @@
         "nunomaduro/collision": "^4.1",
         "phpunit/phpunit": "^8.5"
     },
+    "environments": {
+        "test": {
+            "scripts": {
+                "test-setup": "heroku-php-apache2 >/dev/null 2>&1 & sleep 5",
+                "test": "codecept run"
+            }
+        }
+    },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
